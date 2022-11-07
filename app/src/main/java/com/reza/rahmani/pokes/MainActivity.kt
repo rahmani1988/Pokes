@@ -37,7 +37,9 @@ fun MainScreenView() {
     Scaffold(bottomBar = {
         BottomNavigation(navController = navController)
     }, content = {
-        Column(modifier = Modifier.padding(it)) {
+        Column(
+            modifier = Modifier.padding(it)
+        ) {
             NavigationGraph(navController = navController)
         }
     })
@@ -45,11 +47,12 @@ fun MainScreenView() {
 
 @Composable
 fun BottomNavigation(navController: NavController) {
+    // TODO: make 3 items here and getString and routes from string.xml
     val items = listOf(
-        BottomNavItem.Home, BottomNavItem.Settings
+        BottomNavItem.Home, BottomNavItem.Favorite, BottomNavItem.Settings
     )
     BottomNavigation(
-        backgroundColor = colorResource(id = R.color.teal_200), contentColor = Color.Black
+        backgroundColor = colorResource(id = R.color.white), contentColor = Color.Black
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -61,18 +64,17 @@ fun BottomNavigation(navController: NavController) {
             },
                 label = {
                     Text(
-                        text = item.title, fontSize = 9.sp
+                        text = item.title, fontSize = 12.sp
                     )
                 },
                 selectedContentColor = Color.Black,
                 unselectedContentColor = Color.Black.copy(0.4f),
                 alwaysShowLabel = true,
-                selected = currentRoute == item.screen_route,
+                selected = currentRoute == item.screenRoute,
                 onClick = {
-                    navController.navigate(item.screen_route) {
-
-                        navController.graph.startDestinationRoute?.let { screen_route ->
-                            popUpTo(screen_route) {
+                    navController.navigate(item.screenRoute) {
+                        navController.graph.startDestinationRoute?.let { screenRoute ->
+                            popUpTo(screenRoute) {
                                 saveState = true
                             }
                         }

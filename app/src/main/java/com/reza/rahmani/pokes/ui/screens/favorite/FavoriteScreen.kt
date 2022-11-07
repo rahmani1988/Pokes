@@ -1,4 +1,4 @@
-package com.reza.rahmani.pokes.ui.screens.settings
+package com.reza.rahmani.pokes.ui.screens.favorite
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,17 +17,17 @@ import androidx.compose.ui.unit.sp
 import com.reza.rahmani.pokes.R
 
 @Composable
-fun SettingsScreen() {
+fun FavoriteScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.purple_200))
+            .background(colorResource(id = R.color.white))
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = stringResource(id = R.string.settings),
+            text = stringResource(id = R.string.favorite),
             fontWeight = FontWeight.Bold,
-            color = Color.White,
+            color = Color.Black,
             modifier = Modifier.align(Alignment.CenterHorizontally),
             textAlign = TextAlign.Center,
             fontSize = 20.sp
