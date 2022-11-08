@@ -16,10 +16,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.reza.rahmani.pokes.data.model.BottomNavItem
+import com.reza.rahmani.pokes.data.model.Screen
 import com.reza.rahmani.pokes.ui.NavigationGraph
 import com.reza.rahmani.pokes.ui.theme.PokesTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,7 @@ fun MainScreenView() {
 fun BottomNavigation(navController: NavController) {
     // TODO: make 3 items here and getString and routes from string.xml
     val items = listOf(
-        BottomNavItem.Home, BottomNavItem.Favorite, BottomNavItem.Settings
+        Screen.BottomNavItem.Home, Screen.BottomNavItem.Favorite, Screen.BottomNavItem.Settings
     )
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.white), contentColor = Color.Black
