@@ -1,7 +1,11 @@
 package com.reza.rahmani.pokes.data.model.remote.response
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Other(
-    val dream_world: DreamWorld,
-    val home: Home,
-    val official-artwork: OfficialArtwork
+    @SerialName("dream_world") val dreamWorld: DreamWorld?,
+    @SerialName("home") val home: Home?,
+    @SerialName("official-artwork") val officialArtwork: OfficialArtwork?
 )

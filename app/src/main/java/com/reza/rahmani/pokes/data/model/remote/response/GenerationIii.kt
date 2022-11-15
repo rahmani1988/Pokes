@@ -1,7 +1,11 @@
 package com.reza.rahmani.pokes.data.model.remote.response
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class GenerationIii(
-    val emerald: Emerald,
-    val firered-leafgreen: FireredLeafgreen,
-    val ruby-sapphire: RubySapphire
+    @SerialName("emerald") val emerald: Emerald?,
+    @SerialName("firered-leafgreen") val fireredLeafGreen: FireredLeafgreen?,
+    @SerialName("ruby-sapphire") val rubySapphire: RubySapphire?
 )

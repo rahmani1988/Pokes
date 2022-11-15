@@ -1,6 +1,9 @@
 package com.reza.rahmani.pokes.data.model.remote.response
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class MoveX(
-    val name: String,
-    val url: String
+    @SerialName("name") val name: String?, @SerialName("url") val url: String?
 )

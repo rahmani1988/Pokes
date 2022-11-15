@@ -1,6 +1,10 @@
 package com.reza.rahmani.pokes.data.model.remote.response
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class GenerationVii(
-    val icons: Icons,
-    val ultra-sun-ultra-moon: UltraSunUltraMoon
+    @SerialName("icons") val icons: Icons?,
+    @SerialName("ultra-sun-ultra-moon") val ultraSunUltraMoon: UltraSunUltraMoon?
 )

@@ -1,22 +1,26 @@
 package com.reza.rahmani.pokes.data.model.remote.response
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Pokemon(
-    val abilities: List<Ability>,
-    val base_experience: Int,
-    val forms: List<Form>,
-    val game_indices: List<GameIndice>,
-    val height: Int,
-    val held_items: List<HeldItem>,
-    val id: Int,
-    val is_default: Boolean,
-    val location_area_encounters: String,
-    val moves: List<Move>,
-    val name: String,
-    val order: Int,
-    val past_types: List<Any>,
-    val species: Species,
-    val sprites: Sprites,
-    val stats: List<Stat>,
-    val types: List<Type>,
-    val weight: Int
+    @SerialName("abilities") val abilities: List<Ability?>?,
+    @SerialName("base_experience") val baseExperience: Int?,
+    @SerialName("forms") val forms: List<Form?>?,
+    @SerialName("game_indices") val gameIndices: List<GameIndice?>?,
+    @SerialName("height") val height: Int?,
+    @SerialName("held_items") val heldItems: List<HeldItem?>?,
+    @SerialName("id") val id: Int?,
+    @SerialName("is_default") val isDefault: Boolean?,
+    @SerialName("location_area_encounters") val locationAreaEncounters: String?,
+    @SerialName("moves") val moves: List<Move?>?,
+    @SerialName("name") val name: String?,
+    @SerialName("order") val order: Int?,
+    @SerialName("past_types") val pastTypes: List<String?>?,
+    @SerialName("species") val species: Species?,
+    @SerialName("sprites") val sprites: Sprites?,
+    @SerialName("stats") val stats: List<Stat?>?,
+    @SerialName("types") val types: List<Type?>?,
+    @SerialName("weight") val weight: Int?
 )
