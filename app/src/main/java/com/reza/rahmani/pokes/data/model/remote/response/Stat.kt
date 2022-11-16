@@ -1,7 +1,11 @@
 package com.reza.rahmani.pokes.data.model.remote.response
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Stat(
-    val base_stat: Int,
-    val effort: Int,
-    val stat: StatX
+    @SerialName("base_stat") val baseStat: Int?,
+    @SerialName("effort") val effort: Int?,
+    @SerialName("stat") val stat: StatX?
 )
