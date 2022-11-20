@@ -1,4 +1,4 @@
-package com.reza.rahmani.pokes
+package com.reza.rahmani.pokes.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.reza.rahmani.pokes.data.model.Screen
-import com.reza.rahmani.pokes.ui.NavigationGraph
+import com.reza.rahmani.pokes.R
 import com.reza.rahmani.pokes.ui.theme.PokesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
