@@ -10,7 +10,7 @@ interface PokemonRepository {
         limit: Int, offset: Int
     ): Flow<Result<Exception, Pokemons?>>
 
-    /*suspend fun getPokemonInfo(
+    suspend fun getPokemonInfo(
         name: String
-    ): Flow<Result<Pokemon, Exception>>*/
+    ): Flow<Result<Exception, Pokemon?>>
 }

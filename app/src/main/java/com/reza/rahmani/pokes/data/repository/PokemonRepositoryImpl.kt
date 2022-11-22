@@ -18,26 +18,43 @@ class PokemonRepositoryImpl @Inject constructor(
 ) : PokemonRepository {
     override suspend fun getPokemons(limit: Int, offset: Int): Flow<Result<Exception, Pokemons?>> =
         flow {
-            networkDataSource.getPokemons(limit = limit, offset = offset)
-                .flowOn(ioDispatcher)
+            networkDataSource.getPokemons(limit = limit, offset = offset).flowOn(ioDispatcher)
                 .onEach { response ->
                     if (response.isSuccessful) {
                         emit(Result.build {
                             response.body()
                         })
                     } else {
+                        // TODO: replace with error from server
                         emit(Result.build {
                             throw Exception("Temp")
                         })
                     }
                 }.catch { exception ->
+                    // TODO: check if this catch block gets api call exceptions (HTTP exception)
                     emit(Result.build {
                         throw exception
                     })
                 }.collect()
         }
 
-    /*override suspend fun getPokemonInfo(name: String): Flow<Response<Pokemon>> {
-
-    }*/
+    override suspend fun getPokemonInfo(name: String): Flow<Result<Exception, Pokemon?>> = flow {
+        networkDataSource.getPokemonInfo(name).flowOn(ioDispatcher).onEach { response ->
+            if (response.isSuccessful) {
+                emit(Result.build {
+                    response.body()
+                })
+            } else {
+                // TODO: replace with error from server
+                emit(Result.build {
+                    throw Exception("Temp")
+                })
+            }
+        }.catch { exception ->
+            // TODO: check if this catch block gets api call exceptions (HTTP exception)
+            emit(Result.build {
+                throw exception
+            })
+        }.collect()
+    }
 }
