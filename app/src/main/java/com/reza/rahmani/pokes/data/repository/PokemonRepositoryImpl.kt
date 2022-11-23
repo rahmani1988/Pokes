@@ -4,7 +4,6 @@ import com.reza.rahmani.pokes.data.datasource.remote.NetworkDataSource
 import com.reza.rahmani.pokes.data.model.remote.response.pokemon.Pokemon
 import com.reza.rahmani.pokes.data.model.remote.response.pokemons.Pokemons
 import dagger.hilt.android.scopes.ActivityScoped
-import retrofit2.Response
 import javax.inject.Inject
 import com.reza.rahmani.pokes.data.model.local.Result
 import com.reza.rahmani.pokes.di.IoDispatcher
