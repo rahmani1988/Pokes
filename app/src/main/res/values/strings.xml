@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Pokes</string>
-    <string name="home">Home</string>
-    <string name="favorite">Favorite</string>
-    <string name="settings">Settings</string>
 
+    <!-- home -->
+    <string name="title_home">Home</string>
+
+    <!-- favorite -->
+    <string name="title_favorite">Favorite</string>
+
+    <!-- settings -->
+    <string name="title_settings">Settings</string>
 </resources>

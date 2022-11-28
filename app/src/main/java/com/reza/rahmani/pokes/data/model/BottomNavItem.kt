@@ -3,10 +3,22 @@ package com.reza.rahmani.pokes.data.model
 import com.reza.rahmani.pokes.R
 
 sealed class Screen(val route: String) {
-    sealed class BottomNavItem(val title: String, val icon: Int, val screenRoute: String) {
-        object Home : BottomNavItem("Home", R.drawable.ic_home, "home_screen")
-        object Settings : BottomNavItem("Settings", R.drawable.ic_settings, "settings_screen")
-        object Favorite : BottomNavItem("Favorite", R.drawable.ic_favorite, "favorite_screen")
+    sealed class BottomNavItem(open val title: String, val icon: Int, val route: String) {
+        data class Home(override val title: String) : BottomNavItem(title, R.drawable.ic_home, "home_screen") {
+            companion object {
+                fun route() = "home_screen"
+            }
+        }
+        data class Settings(override val title: String) : BottomNavItem(title, R.drawable.ic_settings, "settings_screen") {
+            companion object {
+                fun route() = "settings_screen"
+            }
+        }
+        data class Favorite(override val title: String) : BottomNavItem(title, R.drawable.ic_favorite, "favorite_screen") {
+            companion object {
+                fun route() = "favorite_screen"
+            }
+        }
     }
 
     object PokemonListScreen : Screen("pokemon_list_screen")
@@ -15,4 +27,6 @@ sealed class Screen(val route: String) {
             "pokemon_details_screen/$dominantColor/$pokemonName"
     }
 }
+
+
 

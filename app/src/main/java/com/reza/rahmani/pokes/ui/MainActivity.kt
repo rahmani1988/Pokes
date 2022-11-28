@@ -12,12 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.reza.rahmani.pokes.data.model.Screen
 import com.reza.rahmani.pokes.R
+import com.reza.rahmani.pokes.data.model.Screen
 import com.reza.rahmani.pokes.ui.theme.PokesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,9 +50,10 @@ fun MainScreenView() {
 
 @Composable
 fun BottomNavigation(navController: NavController) {
-    // TODO: make 3 items here and getString and routes from string.xml
     val items = listOf(
-        Screen.BottomNavItem.Home, Screen.BottomNavItem.Favorite, Screen.BottomNavItem.Settings
+        Screen.BottomNavItem.Home(stringResource(id = R.string.title_home)),
+        Screen.BottomNavItem.Favorite(stringResource(id = R.string.title_favorite)),
+        Screen.BottomNavItem.Settings(stringResource(id = R.string.title_settings))
     )
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.white), contentColor = Color.Black
@@ -72,9 +74,9 @@ fun BottomNavigation(navController: NavController) {
                 selectedContentColor = Color.Black,
                 unselectedContentColor = Color.Black.copy(0.4f),
                 alwaysShowLabel = true,
-                selected = currentRoute == item.screenRoute,
+                selected = currentRoute == item.route,
                 onClick = {
-                    navController.navigate(item.screenRoute) {
+                    navController.navigate(item.route) {
                         navController.graph.startDestinationRoute?.let { screenRoute ->
                             popUpTo(screenRoute) {
                                 saveState = true
