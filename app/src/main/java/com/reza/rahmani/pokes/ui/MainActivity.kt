@@ -51,9 +51,9 @@ fun MainScreenView() {
 @Composable
 fun BottomNavigation(navController: NavController) {
     val items = listOf(
-        Screen.BottomNavItem.Home(stringResource(id = R.string.title_home)),
-        Screen.BottomNavItem.Favorite(stringResource(id = R.string.title_favorite)),
-        Screen.BottomNavItem.Settings(stringResource(id = R.string.title_settings))
+        Screen.BottomNavItem.Home,
+        Screen.BottomNavItem.Favorite,
+        Screen.BottomNavItem.Settings
     )
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.white), contentColor = Color.Black
@@ -63,12 +63,12 @@ fun BottomNavigation(navController: NavController) {
         items.forEach { item ->
             BottomNavigationItem(icon = {
                 Icon(
-                    painterResource(id = item.icon), contentDescription = item.title
+                    painterResource(id = item.icon), contentDescription = stringResource(id = item.titleResourceId)
                 )
             },
                 label = {
                     Text(
-                        text = item.title, fontSize = 12.sp
+                        text = stringResource(id = item.titleResourceId), fontSize = 12.sp
                     )
                 },
                 selectedContentColor = Color.Black,

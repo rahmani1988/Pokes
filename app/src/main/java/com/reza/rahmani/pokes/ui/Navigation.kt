@@ -17,15 +17,15 @@ import com.reza.rahmani.pokes.ui.screens.settings.SettingsScreen
 fun NavigationGraph(navController: NavHostController) {
     NavHost(
         navController,
-        startDestination = Screen.BottomNavItem.Home.route()
+        startDestination = Screen.BottomNavItem.Home.route
     ) {
-        composable(Screen.BottomNavItem.Home.route()) {
+        composable(Screen.BottomNavItem.Home.route) {
             HomeScreen()
         }
-        composable(Screen.BottomNavItem.Settings.route()) {
+        composable(Screen.BottomNavItem.Settings.route) {
             SettingsScreen()
         }
-        composable(Screen.BottomNavItem.Favorite.route()) {
+        composable(Screen.BottomNavItem.Favorite.route) {
             FavoriteScreen()
         }
         composable(Screen.PokemonListScreen.route) {

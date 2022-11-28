@@ -1,24 +1,16 @@
 package com.reza.rahmani.pokes.data.model
 
+import androidx.annotation.StringRes
 import com.reza.rahmani.pokes.R
 
 sealed class Screen(val route: String) {
-    sealed class BottomNavItem(open val title: String, val icon: Int, val route: String) {
-        data class Home(override val title: String) : BottomNavItem(title, R.drawable.ic_home, "home_screen") {
-            companion object {
-                fun route() = "home_screen"
-            }
-        }
-        data class Settings(override val title: String) : BottomNavItem(title, R.drawable.ic_settings, "settings_screen") {
-            companion object {
-                fun route() = "settings_screen"
-            }
-        }
-        data class Favorite(override val title: String) : BottomNavItem(title, R.drawable.ic_favorite, "favorite_screen") {
-            companion object {
-                fun route() = "favorite_screen"
-            }
-        }
+    sealed class BottomNavItem(@StringRes val titleResourceId: Int, val icon: Int, val route: String) {
+        object Home : BottomNavItem(R.string.title_home, R.drawable.ic_home, "home_screen")
+        object Settings :
+            BottomNavItem(R.string.title_settings, R.drawable.ic_settings, "settings_screen")
+
+        object Favorite :
+            BottomNavItem(R.string.title_favorite, R.drawable.ic_favorite, "favorite_screen")
     }
 
     object PokemonListScreen : Screen("pokemon_list_screen")
