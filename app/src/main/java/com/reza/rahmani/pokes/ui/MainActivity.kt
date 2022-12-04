@@ -3,24 +3,28 @@ package com.reza.rahmani.pokes.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.reza.rahmani.pokes.R
-import com.reza.rahmani.pokes.data.model.Screen
 import com.reza.rahmani.pokes.ui.theme.PokesTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.flow
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -51,9 +55,7 @@ fun MainScreenView() {
 @Composable
 fun BottomNavigation(navController: NavController) {
     val items = listOf(
-        Screen.BottomNavItem.Home,
-        Screen.BottomNavItem.Favorite,
-        Screen.BottomNavItem.Settings
+        Screen.BottomNavItem.Home, Screen.BottomNavItem.Favorite, Screen.BottomNavItem.Settings
     )
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.white), contentColor = Color.Black
@@ -63,7 +65,8 @@ fun BottomNavigation(navController: NavController) {
         items.forEach { item ->
             BottomNavigationItem(icon = {
                 Icon(
-                    painterResource(id = item.icon), contentDescription = stringResource(id = item.titleResourceId)
+                    painterResource(id = item.icon),
+                    contentDescription = stringResource(id = item.titleResourceId)
                 )
             },
                 label = {

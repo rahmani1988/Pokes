@@ -8,22 +8,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.reza.rahmani.pokes.R
 
-val Roboto = FontFamily(
+private val Roboto = FontFamily(
     Font(R.font.roboto_light, FontWeight.Light),
     Font(R.font.roboto_regular, FontWeight.Normal),
     Font(R.font.roboto_medium, FontWeight.Medium),
-    Font(R.font.roboto_bold, FontWeight.Bold),
+    Font(R.font.roboto_bold, FontWeight.Bold)
 )
 
-val RobotoCondensed = FontFamily(
+private val RobotoCondensed = FontFamily(
     Font(R.font.roboto_condensed_light, FontWeight.Light),
-    Font(R.font.roboto_condensed_regular, FontWeight.Normal),
+    Font(R.font.roboto_condensed_regular, FontWeight.Normal)
 )
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     body1 = TextStyle(
-        fontFamily = Roboto, fontWeight = FontWeight.Normal, fontSize = 16.sp
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
     ),
     /* Other default text styles to override
     button = TextStyle(
