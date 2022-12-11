@@ -102,17 +102,6 @@ abstract class DataSourceModule {
 
 @InstallIn(SingletonComponent::class)
 @Module
-object CoroutinesScopesModule {
-
-    @Singleton
-    @Provides
-    fun providesCoroutineScope(): CoroutineScope {
-        return CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    }
-}
-
-@InstallIn(SingletonComponent::class)
-@Module
 object CoroutinesDispatchersModule {
 
     @DefaultDispatcher
@@ -132,6 +121,18 @@ object CoroutinesDispatchersModule {
     fun providesMainImmediateDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
 }
 
+@InstallIn(SingletonComponent::class)
+@Module
+object CoroutinesScopesModule {
+
+    @Singleton
+    @ApplicationScope
+    @Provides
+    fun providesCoroutineScope(
+        @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
+    ): CoroutineScope = CoroutineScope(SupervisorJob() + defaultDispatcher)
+}
+
 @Retention(AnnotationRetention.RUNTIME)
 @Qualifier
 annotation class DefaultDispatcher
@@ -147,3 +148,7 @@ annotation class MainDispatcher
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class MainImmediateDispatcher
+
+@Retention(AnnotationRetention.RUNTIME)
+@Qualifier
+annotation class ApplicationScope

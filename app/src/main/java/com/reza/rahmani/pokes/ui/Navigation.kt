@@ -21,7 +21,7 @@ fun NavigationGraph(navController: NavHostController) {
         startDestination = Screen.BottomNavItem.Home.route
     ) {
         composable(Screen.BottomNavItem.Home.route) {
-            HomeScreen()
+            HomeScreen(navController = navController)
         }
         composable(Screen.BottomNavItem.Settings.route) {
             SettingsScreen()
