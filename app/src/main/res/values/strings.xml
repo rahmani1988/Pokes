@@ -3,6 +3,8 @@
 
     <!-- home -->
     <string name="title_home">Home</string>
+    <string name="pokemons_home">Pokemons</string>
+    <string name="hint_home">Search...</string>
 
     <!-- favorite -->
     <string name="title_favorite">Favorite</string>
