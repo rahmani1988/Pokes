@@ -82,7 +82,6 @@ annotation class AuthenticationInterceptorOkHttpClient
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
-    @Singleton
     @Binds
     abstract fun bindNewsRepository(
         pokemonRepositoryImpl: PokemonRepositoryImpl
@@ -93,7 +92,6 @@ abstract class RepositoryModule {
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {
 
-    @Singleton
     @Binds
     abstract fun bindRemoteDataSource(
         networkDataSourceImpl: NetworkDataSourceImpl

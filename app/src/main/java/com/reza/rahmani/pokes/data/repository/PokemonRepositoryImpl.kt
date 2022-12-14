@@ -10,14 +10,13 @@ import com.reza.rahmani.pokes.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 
-@ActivityScoped
 class PokemonRepositoryImpl @Inject constructor(
     private val networkDataSource: NetworkDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : PokemonRepository {
     override suspend fun getPokemons(limit: Int, offset: Int): Flow<Result<Exception, Pokemons?>> =
         flow {
-            networkDataSource.getPokemons(limit = limit, offset = offset).flowOn(ioDispatcher)
+            networkDataSource.getPokemons(limit = limit, offset = offset)
                 .onEach { response ->
                     if (response.isSuccessful) {
                         emit(Result.build {
@@ -29,7 +28,9 @@ class PokemonRepositoryImpl @Inject constructor(
                             throw Exception("Temp")
                         })
                     }
-                }.catch { exception ->
+                }
+                .flowOn(ioDispatcher)
+                .catch { exception ->
                     // TODO: check if this catch block gets api call exceptions (HTTP exception)
                     emit(Result.build {
                         throw exception
@@ -38,22 +39,24 @@ class PokemonRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getPokemonInfo(name: String): Flow<Result<Exception, Pokemon?>> = flow {
-        networkDataSource.getPokemonInfo(name).flowOn(ioDispatcher).onEach { response ->
-            if (response.isSuccessful) {
+        networkDataSource.getPokemonInfo(name)
+            .onEach { response ->
+                if (response.isSuccessful) {
+                    emit(Result.build {
+                        response.body()
+                    })
+                } else {
+                    // TODO: replace with error from server
+                    emit(Result.build {
+                        throw Exception("Temp")
+                    })
+                }
+            }.flowOn(ioDispatcher)
+            .catch { exception ->
+                // TODO: check if this catch block gets api call exceptions (HTTP exception)
                 emit(Result.build {
-                    response.body()
+                    throw exception
                 })
-            } else {
-                // TODO: replace with error from server
-                emit(Result.build {
-                    throw Exception("Temp")
-                })
-            }
-        }.catch { exception ->
-            // TODO: check if this catch block gets api call exceptions (HTTP exception)
-            emit(Result.build {
-                throw exception
-            })
-        }.collect()
+            }.collect()
     }
 }

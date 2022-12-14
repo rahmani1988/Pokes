@@ -1,4 +1,4 @@
-package com.reza.rahmani.pokes.ui.screens.home
+package com.reza.rahmani.pokes.ui.screens.pokemonlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,11 +8,14 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -20,11 +23,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.reza.rahmani.pokes.R
+import com.reza.rahmani.pokes.data.model.local.PokemonItem
+
 
 @Composable
-fun HomeScreen(
+fun PokemonListScreen(
     navController: NavController
 ) {
     Surface(
@@ -34,7 +40,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Image(
                 painter = painterResource(id = R.drawable.ic_international_pok_mon_logo),
-                contentDescription = stringResource(id = R.string.pokemons_home),
+                contentDescription = stringResource(id = R.string.title_pokemon_list),
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(CenterHorizontally)
@@ -43,7 +49,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                hint = stringResource(id = R.string.hint_home)
+                hint = stringResource(id = R.string.hint_pokemon_list)
             ) {
 
             }
@@ -85,6 +91,16 @@ fun SearchBar(
     }
 }
 
+@Composable
+fun PokemonItem(
+    modifier: Modifier = Modifier,
+    item: PokemonItem,
+    navController: NavController,
+    viewModel: PokemonViewModel = hiltViewModel()
+) {
+
+}
+
 @Preview
 @Composable
 fun Preview() {
@@ -92,7 +108,7 @@ fun Preview() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(15.dp), hint = stringResource(
-            id = R.string.hint_home
+            id = R.string.hint_pokemon_list
         )
     )
 }

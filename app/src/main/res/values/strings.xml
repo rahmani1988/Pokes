@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Pokes</string>
 
-    <!-- home -->
-    <string name="title_home">Home</string>
-    <string name="pokemons_home">Pokemons</string>
-    <string name="hint_home">Search...</string>
+    <!-- pokemon list -->
+    <string name="item_pokemon_list">Pokemon</string>
+    <string name="title_pokemon_list">Pokemons</string>
+    <string name="hint_pokemon_list">Search...</string>
 
     <!-- favorite -->
-    <string name="title_favorite">Favorite</string>
+    <string name="item_favorite">Favorite</string>
 
     <!-- settings -->
-    <string name="title_settings">Settings</string>
+    <string name="item_setting">Setting</string>
 </resources>

@@ -5,7 +5,6 @@ import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-@ActivityScoped
 class NetworkDataSourceImpl @Inject constructor(private val apiService: ApiService) :
     NetworkDataSource {
 

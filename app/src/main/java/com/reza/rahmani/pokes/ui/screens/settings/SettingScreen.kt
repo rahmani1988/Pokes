@@ -25,7 +25,7 @@ fun SettingsScreen() {
             .wrapContentSize(Alignment.Center)
     ) {
         Text(
-            text = stringResource(id = R.string.title_settings),
+            text = stringResource(id = R.string.item_setting),
             fontWeight = FontWeight.Bold,
             color = Color.White,
             modifier = Modifier.align(Alignment.CenterHorizontally),
