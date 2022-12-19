@@ -3,6 +3,8 @@ package com.reza.rahmani.pokes.ui.screens.pokemonlist
 import androidx.lifecycle.ViewModel
 import com.reza.rahmani.pokes.data.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel

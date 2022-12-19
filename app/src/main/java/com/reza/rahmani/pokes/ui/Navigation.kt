@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.reza.rahmani.pokes.R
 import com.reza.rahmani.pokes.ui.screens.favorite.FavoriteScreen
 import com.reza.rahmani.pokes.ui.screens.pokemonlist.PokemonListScreen
@@ -40,10 +41,6 @@ fun NavigationGraph(navController: NavHostController) {
                 }
             )
         ) {
-            val dominantColor = remember {
-                val color = it.arguments?.getInt("dominantColor")
-                color?.let { Color(it) } ?: Color.White
-            }
             val pokemonName = remember {
                 it.arguments?.getString("pokemonName")
             }
@@ -65,8 +62,8 @@ sealed class Screen(val route: String) {
             BottomNavItem(R.string.item_favorite, R.drawable.ic_favorite, "favorite_screen")
     }
 
-    object PokemonDetailsScreen : Screen("pokemon_details_screen/{dominantColor}/{pokemonName}") {
-        fun createRoute(dominantColor: Int, pokemonName: String) =
-            "pokemon_details_screen/$dominantColor/$pokemonName"
+    object PokemonDetailsScreen : Screen("pokemon_details_screen/{pokemonName}") {
+        fun createRoute(pokemonName: String) =
+            "pokemon_details_screen/$pokemonName"
     }
 }

@@ -8,14 +8,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.reza.rahmani.pokes.R
 
-private val Roboto = FontFamily(
+val Roboto = FontFamily(
     Font(R.font.roboto_light, FontWeight.Light),
     Font(R.font.roboto_regular, FontWeight.Normal),
     Font(R.font.roboto_medium, FontWeight.Medium),
     Font(R.font.roboto_bold, FontWeight.Bold)
 )
 
-private val RobotoCondensed = FontFamily(
+val RobotoCondensed = FontFamily(
     Font(R.font.roboto_condensed_light, FontWeight.Light),
     Font(R.font.roboto_condensed_regular, FontWeight.Normal)
 )
