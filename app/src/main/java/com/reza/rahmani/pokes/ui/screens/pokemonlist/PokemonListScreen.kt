@@ -42,7 +42,8 @@ fun PokemonListScreen(
     navController: NavController
 ) {
     Surface(
-        color = MaterialTheme.colors.background, modifier = Modifier.fillMaxSize()
+        color = MaterialTheme.colors.background,
+        modifier = Modifier.fillMaxSize()
     ) {
         Column {
             Spacer(modifier = Modifier.height(20.dp))
@@ -91,9 +92,9 @@ fun SearchBar(
                 })
         if (isHintDisplayed) {
             Text(
-                text = hint,
-                color = Color.LightGray,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp)
+                text = hint, color = Color.LightGray, modifier = Modifier.padding(
+                    horizontal = 20.dp, vertical = 12.dp
+                )
             )
         }
     }
@@ -106,8 +107,7 @@ fun PokemonItem(
     navController: NavController,
     viewModel: PokemonViewModel = hiltViewModel()
 ) {
-    Box(
-        contentAlignment = Center,
+    Box(contentAlignment = Center,
         modifier = modifier
             .shadow(5.dp, RoundedCornerShape(10.dp))
             .clip(RoundedCornerShape(10.dp))
@@ -118,10 +118,7 @@ fun PokemonItem(
             }) {
         Column {
             CoilImage(
-                request = ImageRequest
-                    .Builder(LocalContext.current)
-                    .data(item.imageUrl)
-                    .build(),
+                request = ImageRequest.Builder(LocalContext.current).data(item.imageUrl).build(),
                 contentDescription = item.pokemonName,
                 fadeIn = true,
                 modifier = Modifier
@@ -129,8 +126,7 @@ fun PokemonItem(
                     .align(CenterHorizontally)
             ) {
                 CircularProgressIndicator(
-                    color = MaterialTheme.colors.primary,
-                    modifier = Modifier.scale(0.5f)
+                    color = MaterialTheme.colors.primary, modifier = Modifier.scale(0.5f)
                 )
             }
             Text(
@@ -142,6 +138,33 @@ fun PokemonItem(
             )
         }
     }
+}
+
+@Composable
+fun PokeRow(
+    index: Int, list: List<PokemonItem>, navController: NavController
+) {
+    Column {
+        Row {
+            PokemonItem(
+                item = list[index * 2],
+                navController = navController,
+                modifier = Modifier.weight(1f)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            if (list.size >= index * 2 + 2) {
+                PokemonItem(
+                    item = list[index * 2 + 1],
+                    navController = navController,
+                    modifier = Modifier.weight(1f)
+                )
+            } else {
+                Spacer(modifier = Modifier.weight(1f))
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+
 }
 
 @Preview(showBackground = true)
