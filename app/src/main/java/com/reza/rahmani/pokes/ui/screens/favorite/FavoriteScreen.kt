@@ -28,7 +28,8 @@ fun FavoriteScreen() {
             text = stringResource(id = R.string.item_favorite),
             fontWeight = FontWeight.Bold,
             color = Color.Black,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally),
             textAlign = TextAlign.Center,
             fontSize = 20.sp
         )

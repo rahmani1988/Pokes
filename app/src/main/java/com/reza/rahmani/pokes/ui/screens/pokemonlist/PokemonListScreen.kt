@@ -1,16 +1,19 @@
 package com.reza.rahmani.pokes.ui.screens.pokemonlist
 
+import android.content.res.Configuration
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -36,6 +39,7 @@ import com.reza.rahmani.pokes.R
 import com.reza.rahmani.pokes.data.model.local.PokemonItem
 import com.reza.rahmani.pokes.ui.Screen
 import com.reza.rahmani.pokes.ui.theme.RobotoCondensed
+import com.reza.rahmani.pokes.ui.theme.Shapes
 
 @Composable
 fun PokemonListScreen(
@@ -47,12 +51,10 @@ fun PokemonListScreen(
     ) {
         Column {
             Spacer(modifier = Modifier.height(20.dp))
-            Image(
-                painter = painterResource(id = R.drawable.ic_international_pok_mon_logo),
-                contentDescription = stringResource(id = R.string.title_pokemon_list),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(CenterHorizontally)
+            Logo(
+                contentDescription = R.string.title_pokemon_list,
+                painterResource = R.drawable.ic_international_pok_mon_logo,
+                modifier = Modifier.align(CenterHorizontally)
             )
             SearchBar(
                 modifier = Modifier
@@ -67,14 +69,36 @@ fun PokemonListScreen(
 }
 
 @Composable
+fun Logo(
+    @StringRes contentDescription: Int,
+    @DrawableRes painterResource: Int,
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        modifier = modifier,
+        elevation = 4.dp,
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Image(
+            painter = painterResource(id = painterResource),
+            contentDescription = stringResource(id = contentDescription),
+            modifier = Modifier.padding(10.dp)
+        )
+    }
+}
+
+@Composable
 fun SearchBar(
-    modifier: Modifier = Modifier, hint: String = "", onSearch: (String) -> Unit
+    modifier: Modifier = Modifier,
+    hint: String = "",
+    onSearch: (String) -> Unit
 ) {
     var text by remember { mutableStateOf("") }
     var isHintDisplayed by remember { mutableStateOf(hint != "") }
 
     Box(modifier = modifier) {
-        BasicTextField(value = text,
+        BasicTextField(
+            value = text,
             onValueChange = {
                 text = it
                 onSearch(it)
@@ -86,14 +110,20 @@ fun SearchBar(
                 .fillMaxWidth()
                 .shadow(5.dp, CircleShape)
                 .background(color = Color.White, CircleShape)
-                .padding(horizontal = 20.dp, vertical = 12.dp)
+                .padding(
+                    horizontal = 20.dp,
+                    vertical = 12.dp
+                )
                 .onFocusChanged {
                     isHintDisplayed = !it.hasFocus
                 })
         if (isHintDisplayed) {
             Text(
-                text = hint, color = Color.LightGray, modifier = Modifier.padding(
-                    horizontal = 20.dp, vertical = 12.dp
+                text = hint,
+                color = Color.LightGray,
+                modifier = Modifier.padding(
+                    horizontal = 20.dp,
+                    vertical = 12.dp
                 )
             )
         }
@@ -107,7 +137,8 @@ fun PokemonItem(
     navController: NavController,
     viewModel: PokemonViewModel = hiltViewModel()
 ) {
-    Box(contentAlignment = Center,
+    Box(
+        contentAlignment = Center,
         modifier = modifier
             .shadow(5.dp, RoundedCornerShape(10.dp))
             .clip(RoundedCornerShape(10.dp))
@@ -126,7 +157,8 @@ fun PokemonItem(
                     .align(CenterHorizontally)
             ) {
                 CircularProgressIndicator(
-                    color = MaterialTheme.colors.primary, modifier = Modifier.scale(0.5f)
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.scale(0.5f)
                 )
             }
             Text(
@@ -142,9 +174,22 @@ fun PokemonItem(
 
 @Composable
 fun PokeRow(
-    index: Int, list: List<PokemonItem>, navController: NavController
+    list: List<PokemonItem>,
+    navController: NavController
 ) {
-    Column {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(list) {
+            PokemonItem(
+                item = it,
+                navController = navController
+            )
+        }
+    }
+    /*Column {
         Row {
             PokemonItem(
                 item = list[index * 2],
@@ -163,13 +208,24 @@ fun PokeRow(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-    }
-
+    }*/
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, name = "Logo")
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Logo Dark")
 @Composable
-fun Preview() {
+fun LogoPreview() {
+    Logo(
+        contentDescription = R.string.title_pokemon_list,
+        painterResource = R.drawable.ic_international_pok_mon_logo,
+        modifier = Modifier.padding(10.dp)
+    )
+}
+
+@Preview(showBackground = true, name = "Search Bar")
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Search Bar Dark")
+@Composable
+fun SearchBarPreview() {
     SearchBar(
         modifier = Modifier
             .fillMaxWidth()

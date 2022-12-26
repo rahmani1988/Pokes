@@ -28,7 +28,8 @@ fun SettingsScreen() {
             text = stringResource(id = R.string.item_setting),
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally),
             textAlign = TextAlign.Center,
             fontSize = 20.sp
         )

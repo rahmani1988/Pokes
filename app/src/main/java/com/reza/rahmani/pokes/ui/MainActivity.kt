@@ -52,7 +52,8 @@ fun BottomNavigation(navController: NavController) {
         Screen.BottomNavItem.Pokemons, Screen.BottomNavItem.Favorite, Screen.BottomNavItem.Setting
     )
     BottomNavigation(
-        backgroundColor = colorResource(id = R.color.white), contentColor = Color.Black
+        backgroundColor = colorResource(id = R.color.white),
+        contentColor = Color.Black
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -65,7 +66,8 @@ fun BottomNavigation(navController: NavController) {
             },
                 label = {
                     Text(
-                        text = stringResource(id = item.titleResourceId), fontSize = 12.sp
+                        text = stringResource(id = item.titleResourceId),
+                        fontSize = 12.sp
                     )
                 },
                 selectedContentColor = Color.Black,
