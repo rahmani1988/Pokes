@@ -3,10 +3,10 @@ package com.reza.rahmani.pokes.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.reza.rahmani.pokes.BuildConfig
 import com.reza.rahmani.pokes.data.api.ApiService
-import com.reza.rahmani.pokes.data.datasource.remote.NetworkDataSource
-import com.reza.rahmani.pokes.data.datasource.remote.NetworkDataSourceImpl
+import com.reza.rahmani.pokes.data.datasource.remote.PokemonDataSource
+import com.reza.rahmani.pokes.data.datasource.remote.DefaultPokemonDataSource
 import com.reza.rahmani.pokes.data.repository.PokemonRepository
-import com.reza.rahmani.pokes.data.repository.PokemonRepositoryImpl
+import com.reza.rahmani.pokes.data.repository.DefaultPokemonRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -84,7 +84,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindNewsRepository(
-        pokemonRepositoryImpl: PokemonRepositoryImpl
+        pokemonRepositoryImpl: DefaultPokemonRepository
     ): PokemonRepository
 }
 
@@ -94,8 +94,8 @@ abstract class DataSourceModule {
 
     @Binds
     abstract fun bindRemoteDataSource(
-        networkDataSourceImpl: NetworkDataSourceImpl
-    ): NetworkDataSource
+        networkDataSourceImpl: DefaultPokemonDataSource
+    ): PokemonDataSource
 }
 
 @InstallIn(SingletonComponent::class)

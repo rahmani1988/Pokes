@@ -3,6 +3,7 @@ package com.reza.rahmani.pokes.ui
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -16,7 +17,7 @@ import com.reza.rahmani.pokes.ui.screens.pokemonlist.PokemonListScreen
 import com.reza.rahmani.pokes.ui.screens.settings.SettingsScreen
 
 @Composable
-fun NavigationGraph(navController: NavHostController) {
+fun NavigationGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(
         navController,
         startDestination = Screen.BottomNavItem.Pokemons.route

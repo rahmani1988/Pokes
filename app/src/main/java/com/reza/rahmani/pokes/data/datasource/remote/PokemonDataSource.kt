@@ -5,12 +5,12 @@ import com.reza.rahmani.pokes.data.model.remote.response.pokemons.Pokemons
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
-interface NetworkDataSource {
-    suspend fun getPokemons(
+interface PokemonDataSource {
+    suspend fun getPokemonsStream(
         limit: Int, offset: Int
     ): Flow<Response<Pokemons>>
 
-    suspend fun getPokemonInfo(
+    suspend fun getPokemonInfoStream(
         name: String
     ): Flow<Response<Pokemon>>
 }

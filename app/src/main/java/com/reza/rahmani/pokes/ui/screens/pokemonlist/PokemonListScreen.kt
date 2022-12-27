@@ -14,6 +14,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -23,6 +25,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,6 +41,7 @@ import com.google.accompanist.coil.CoilImage
 import com.reza.rahmani.pokes.R
 import com.reza.rahmani.pokes.data.model.local.PokemonItem
 import com.reza.rahmani.pokes.ui.Screen
+import com.reza.rahmani.pokes.ui.theme.PokesTheme
 import com.reza.rahmani.pokes.ui.theme.RobotoCondensed
 import com.reza.rahmani.pokes.ui.theme.Shapes
 
@@ -59,8 +63,7 @@ fun PokemonListScreen(
             SearchBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                hint = stringResource(id = R.string.hint_pokemon_list)
+                    .padding(16.dp)
             ) {
 
             }
@@ -90,43 +93,41 @@ fun Logo(
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    hint: String = "",
     onSearch: (String) -> Unit
 ) {
     var text by remember { mutableStateOf("") }
-    var isHintDisplayed by remember { mutableStateOf(hint != "") }
 
-    Box(modifier = modifier) {
-        BasicTextField(
+    Card(
+        modifier = modifier,
+        elevation = 4.dp,
+        shape = MaterialTheme.shapes.medium
+    ) {
+        OutlinedTextField(
             value = text,
+            maxLines = 1,
+            singleLine = true,
             onValueChange = {
                 text = it
                 onSearch(it)
             },
-            maxLines = 1,
-            singleLine = true,
-            textStyle = TextStyle(color = Color.Black),
+            label = {
+                Text(text = stringResource(id = R.string.hint_pokemon_list))
+            },
+            leadingIcon = {
+                Image(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = ""
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .shadow(5.dp, CircleShape)
-                .background(color = Color.White, CircleShape)
                 .padding(
-                    horizontal = 20.dp,
-                    vertical = 12.dp
+                    top = 2.dp,
+                    bottom = 8.dp,
+                    start = 8.dp,
+                    end = 8.dp
                 )
-                .onFocusChanged {
-                    isHintDisplayed = !it.hasFocus
-                })
-        if (isHintDisplayed) {
-            Text(
-                text = hint,
-                color = Color.LightGray,
-                modifier = Modifier.padding(
-                    horizontal = 20.dp,
-                    vertical = 12.dp
-                )
-            )
-        }
+        )
     }
 }
 
@@ -146,7 +147,8 @@ fun PokemonItem(
             .background(MaterialTheme.colors.surface)
             .clickable {
                 navController.navigate(Screen.PokemonDetailsScreen.createRoute(item.pokemonName))
-            }) {
+            }
+    ) {
         Column {
             CoilImage(
                 request = ImageRequest.Builder(LocalContext.current).data(item.imageUrl).build(),
@@ -189,48 +191,30 @@ fun PokeRow(
             )
         }
     }
-    /*Column {
-        Row {
-            PokemonItem(
-                item = list[index * 2],
-                navController = navController,
-                modifier = Modifier.weight(1f)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            if (list.size >= index * 2 + 2) {
-                PokemonItem(
-                    item = list[index * 2 + 1],
-                    navController = navController,
-                    modifier = Modifier.weight(1f)
-                )
-            } else {
-                Spacer(modifier = Modifier.weight(1f))
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-    }*/
 }
 
 @Preview(showBackground = true, name = "Logo")
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Logo Dark")
 @Composable
 fun LogoPreview() {
-    Logo(
-        contentDescription = R.string.title_pokemon_list,
-        painterResource = R.drawable.ic_international_pok_mon_logo,
-        modifier = Modifier.padding(10.dp)
-    )
+    PokesTheme {
+        Logo(
+            contentDescription = R.string.title_pokemon_list,
+            painterResource = R.drawable.ic_international_pok_mon_logo,
+            modifier = Modifier.padding(10.dp)
+        )
+    }
 }
 
-@Preview(showBackground = true, name = "Search Bar")
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Search Bar Dark")
+@Preview(showBackground = true, name = "SearchBar")
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "SearchBar Dark")
 @Composable
 fun SearchBarPreview() {
-    SearchBar(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp), hint = stringResource(
-            id = R.string.hint_pokemon_list
-        )
-    ) {}
+    PokesTheme {
+        SearchBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+        ) {}
+    }
 }

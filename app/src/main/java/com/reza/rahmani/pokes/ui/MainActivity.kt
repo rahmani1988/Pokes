@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,15 +36,17 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreenView() {
     val navController = rememberNavController()
-    Scaffold(bottomBar = {
-        BottomNavigation(navController = navController)
-    }, content = {
-        Column(
-            modifier = Modifier.padding(it)
-        ) {
-            NavigationGraph(navController = navController)
+    Scaffold(
+        bottomBar = {
+            BottomNavigation(navController = navController)
+        },
+        content = {
+            NavigationGraph(
+                navController = navController,
+                modifier = Modifier.padding(it)
+            )
         }
-    })
+    )
 }
 
 @Composable
@@ -52,8 +55,7 @@ fun BottomNavigation(navController: NavController) {
         Screen.BottomNavItem.Pokemons, Screen.BottomNavItem.Favorite, Screen.BottomNavItem.Setting
     )
     BottomNavigation(
-        backgroundColor = colorResource(id = R.color.white),
-        contentColor = Color.Black
+        backgroundColor = colorResource(id = R.color.white), contentColor = Color.Black
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -66,8 +68,7 @@ fun BottomNavigation(navController: NavController) {
             },
                 label = {
                     Text(
-                        text = stringResource(id = item.titleResourceId),
-                        fontSize = 12.sp
+                        text = stringResource(id = item.titleResourceId), fontSize = 12.sp
                     )
                 },
                 selectedContentColor = Color.Black,
