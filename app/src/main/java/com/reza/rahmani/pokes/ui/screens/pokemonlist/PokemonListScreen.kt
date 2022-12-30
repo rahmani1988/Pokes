@@ -10,48 +10,32 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.request.ImageRequest
-import com.google.accompanist.coil.CoilImage
+import androidx.navigation.compose.rememberNavController
 import com.reza.rahmani.pokes.R
 import com.reza.rahmani.pokes.data.model.local.PokemonItem
 import com.reza.rahmani.pokes.ui.Screen
 import com.reza.rahmani.pokes.ui.theme.PokesTheme
 import com.reza.rahmani.pokes.ui.theme.RobotoCondensed
-import com.reza.rahmani.pokes.ui.theme.Shapes
 
 @Composable
 fun PokemonListScreen(
     navController: NavController
 ) {
     Surface(
-        color = MaterialTheme.colors.background,
-        modifier = Modifier.fillMaxSize()
+        color = MaterialTheme.colors.background, modifier = Modifier.fillMaxSize()
     ) {
         Column {
             Spacer(modifier = Modifier.height(20.dp))
@@ -78,9 +62,7 @@ fun Logo(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier,
-        elevation = 4.dp,
-        shape = MaterialTheme.shapes.medium
+        modifier = modifier, elevation = 4.dp, shape = MaterialTheme.shapes.medium
     ) {
         Image(
             painter = painterResource(id = painterResource),
@@ -92,41 +74,27 @@ fun Logo(
 
 @Composable
 fun SearchBar(
-    modifier: Modifier = Modifier,
-    onSearch: (String) -> Unit
+    modifier: Modifier = Modifier, onSearch: (String) -> Unit
 ) {
     var text by remember { mutableStateOf("") }
 
     Card(
-        modifier = modifier,
-        elevation = 4.dp,
-        shape = MaterialTheme.shapes.medium
+        modifier = modifier, elevation = 4.dp, shape = MaterialTheme.shapes.medium
     ) {
-        OutlinedTextField(
-            value = text,
-            maxLines = 1,
-            singleLine = true,
-            onValueChange = {
-                text = it
-                onSearch(it)
-            },
-            label = {
-                Text(text = stringResource(id = R.string.hint_pokemon_list))
-            },
-            leadingIcon = {
-                Image(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = ""
-                )
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 2.dp,
-                    bottom = 8.dp,
-                    start = 8.dp,
-                    end = 8.dp
-                )
+        OutlinedTextField(value = text, maxLines = 1, singleLine = true, onValueChange = {
+            text = it
+            onSearch(it)
+        }, label = {
+            Text(text = stringResource(id = R.string.hint_pokemon_list))
+        }, leadingIcon = {
+            Image(
+                imageVector = Icons.Filled.Search, contentDescription = ""
+            )
+        }, modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                top = 2.dp, bottom = 8.dp, start = 8.dp, end = 8.dp
+            )
         )
     }
 }
@@ -136,13 +104,12 @@ fun PokemonItem(
     modifier: Modifier = Modifier,
     item: PokemonItem,
     navController: NavController,
-    viewModel: PokemonViewModel = hiltViewModel()
+   // viewModel: PokemonViewModel = hiltViewModel()
 ) {
-    Box(
-        contentAlignment = Center,
+    Card(
+        elevation = 4.dp,
+        shape = MaterialTheme.shapes.medium,
         modifier = modifier
-            .shadow(5.dp, RoundedCornerShape(10.dp))
-            .clip(RoundedCornerShape(10.dp))
             .aspectRatio(1f)
             .background(MaterialTheme.colors.surface)
             .clickable {
@@ -150,19 +117,19 @@ fun PokemonItem(
             }
     ) {
         Column {
-            CoilImage(
-                request = ImageRequest.Builder(LocalContext.current).data(item.imageUrl).build(),
-                contentDescription = item.pokemonName,
-                fadeIn = true,
-                modifier = Modifier
-                    .size(120.dp)
-                    .align(CenterHorizontally)
-            ) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colors.primary,
-                    modifier = Modifier.scale(0.5f)
-                )
-            }
+//            AsyncImage()
+//            (
+//                request = ImageRequest.Builder(LocalContext.current).data(item.imageUrl).build(),
+//                contentDescription = item.pokemonName,
+//                fadeIn = true,
+//                modifier = Modifier
+//                    .size(120.dp)
+//                    .align(CenterHorizontally)
+//            ) {
+//                CircularProgressIndicator(
+//                    color = MaterialTheme.colors.primary, modifier = Modifier.scale(0.5f)
+//                )
+//            }
             Text(
                 text = item.pokemonName,
                 fontFamily = RobotoCondensed,
@@ -176,8 +143,7 @@ fun PokemonItem(
 
 @Composable
 fun PokeRow(
-    list: List<PokemonItem>,
-    navController: NavController
+    list: List<PokemonItem>, navController: NavController
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -186,8 +152,7 @@ fun PokeRow(
     ) {
         items(list) {
             PokemonItem(
-                item = it,
-                navController = navController
+                item = it, navController = navController
             )
         }
     }
@@ -216,5 +181,22 @@ fun SearchBarPreview() {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {}
+    }
+}
+
+@Preview(showBackground = true, name = "PokemonItem")
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "PokemonItem Dark")
+@Composable
+fun PokemonItemPreview() {
+    val navController = rememberNavController()
+    PokesTheme {
+        PokemonItem(
+            item = PokemonItem(
+                pokemonName = "Pokemon",
+                imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png",
+                number = 10
+            ),
+            navController = navController
+        )
     }
 }
