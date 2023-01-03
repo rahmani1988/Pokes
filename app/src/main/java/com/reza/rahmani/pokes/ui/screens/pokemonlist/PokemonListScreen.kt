@@ -10,20 +10,30 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
+import coil.request.ImageRequest
 import com.reza.rahmani.pokes.R
 import com.reza.rahmani.pokes.data.model.local.PokemonItem
 import com.reza.rahmani.pokes.ui.Screen
@@ -35,7 +45,8 @@ fun PokemonListScreen(
     navController: NavController
 ) {
     Surface(
-        color = MaterialTheme.colors.background, modifier = Modifier.fillMaxSize()
+        color = MaterialTheme.colors.background,
+        modifier = Modifier.fillMaxSize()
     ) {
         Column {
             Spacer(modifier = Modifier.height(20.dp))
@@ -62,7 +73,9 @@ fun Logo(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier, elevation = 4.dp, shape = MaterialTheme.shapes.medium
+        modifier = modifier,
+        elevation = 4.dp,
+        shape = MaterialTheme.shapes.medium
     ) {
         Image(
             painter = painterResource(id = painterResource),
@@ -74,27 +87,41 @@ fun Logo(
 
 @Composable
 fun SearchBar(
-    modifier: Modifier = Modifier, onSearch: (String) -> Unit
+    modifier: Modifier = Modifier,
+    onSearch: (String) -> Unit
 ) {
     var text by remember { mutableStateOf("") }
 
     Card(
-        modifier = modifier, elevation = 4.dp, shape = MaterialTheme.shapes.medium
+        modifier = modifier,
+        elevation = 4.dp,
+        shape = MaterialTheme.shapes.medium
     ) {
-        OutlinedTextField(value = text, maxLines = 1, singleLine = true, onValueChange = {
-            text = it
-            onSearch(it)
-        }, label = {
-            Text(text = stringResource(id = R.string.hint_pokemon_list))
-        }, leadingIcon = {
-            Image(
-                imageVector = Icons.Filled.Search, contentDescription = ""
-            )
-        }, modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                top = 2.dp, bottom = 8.dp, start = 8.dp, end = 8.dp
-            )
+        OutlinedTextField(
+            value = text,
+            maxLines = 1,
+            singleLine = true,
+            onValueChange = {
+                text = it
+                onSearch(it)
+            },
+            label = {
+                Text(text = stringResource(id = R.string.hint_pokemon_list))
+            },
+            leadingIcon = {
+                Image(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = ""
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 2.dp,
+                    bottom = 8.dp,
+                    start = 8.dp,
+                    end = 8.dp
+                )
         )
     }
 }
@@ -104,7 +131,7 @@ fun PokemonItem(
     modifier: Modifier = Modifier,
     item: PokemonItem,
     navController: NavController,
-   // viewModel: PokemonViewModel = hiltViewModel()
+    viewModel: PokemonViewModel = hiltViewModel()
 ) {
     Card(
         elevation = 4.dp,
@@ -117,19 +144,25 @@ fun PokemonItem(
             }
     ) {
         Column {
-//            AsyncImage()
-//            (
-//                request = ImageRequest.Builder(LocalContext.current).data(item.imageUrl).build(),
-//                contentDescription = item.pokemonName,
-//                fadeIn = true,
-//                modifier = Modifier
-//                    .size(120.dp)
-//                    .align(CenterHorizontally)
-//            ) {
-//                CircularProgressIndicator(
-//                    color = MaterialTheme.colors.primary, modifier = Modifier.scale(0.5f)
-//                )
-//            }
+            SubcomposeAsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(item.imageUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = item.pokemonName,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(120.dp)
+                    .align(CenterHorizontally)
+                    .clip(CircleShape)
+            ) {
+                val state = painter.state
+                if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
+                    CircularProgressIndicator(modifier = Modifier.scale(0.5f))
+                } else {
+                    SubcomposeAsyncImageContent()
+                }
+            }
             Text(
                 text = item.pokemonName,
                 fontFamily = RobotoCondensed,
@@ -142,8 +175,9 @@ fun PokemonItem(
 }
 
 @Composable
-fun PokeRow(
-    list: List<PokemonItem>, navController: NavController
+fun Pokemons(
+    list: List<PokemonItem>,
+    navController: NavController
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -196,7 +230,10 @@ fun PokemonItemPreview() {
                 imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png",
                 number = 10
             ),
-            navController = navController
+            navController = navController,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
         )
     }
 }
