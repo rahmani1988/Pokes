@@ -129,9 +129,8 @@ fun SearchBar(
 @Composable
 fun PokemonItem(
     modifier: Modifier = Modifier,
-    item: PokemonItem,
-    navController: NavController,
-    viewModel: PokemonViewModel = hiltViewModel()
+    item: com.reza.rahmani.pokes.data.model.remote.response.pokemons.Result,
+    navController: NavController
 ) {
     Card(
         elevation = 4.dp,
@@ -140,13 +139,13 @@ fun PokemonItem(
             .aspectRatio(1f)
             .background(MaterialTheme.colors.surface)
             .clickable {
-                navController.navigate(Screen.PokemonDetailsScreen.createRoute(item.pokemonName))
+                navController.navigate(Screen.PokemonDetailsScreen.createRoute(item.name!!))
             }
     ) {
         Column {
             SubcomposeAsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(item.imageUrl)
+                    .data(item.url)
                     .crossfade(true)
                     .build(),
                 contentDescription = item.pokemonName,
@@ -176,15 +175,16 @@ fun PokemonItem(
 
 @Composable
 fun Pokemons(
-    list: List<PokemonItem>,
-    navController: NavController
+    navController: NavController,
+    viewModel: PokemonViewModel = hiltViewModel()
 ) {
+    val state = viewModel.uiState.collectAsState()
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(list) {
+        items(state.value!!) {
             PokemonItem(
                 item = it, navController = navController
             )

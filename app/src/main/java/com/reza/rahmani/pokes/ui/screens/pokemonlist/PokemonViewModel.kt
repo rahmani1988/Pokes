@@ -1,17 +1,22 @@
 package com.reza.rahmani.pokes.ui.screens.pokemonlist
 
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.reza.rahmani.pokes.data.model.remote.response.pokemons.Pokemons
 import com.reza.rahmani.pokes.data.repository.PokemonRepository
-import com.reza.rahmani.pokes.ui.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.reza.rahmani.pokes.data.model.remote.response.pokemons.Result
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onEach
 
 @HiltViewModel
 class PokemonViewModel @Inject constructor(
@@ -22,9 +27,8 @@ class PokemonViewModel @Inject constructor(
         println("CoroutineExceptionHandler got $exception")
     }
 
-    private val _pokemons = mutableStateListOf<Pokemons>()
-    val pokemons: List<Pokemons>
-        get() = _pokemons
+    private val _uiState: MutableStateFlow<List<Result?>?> = MutableStateFlow(null)
+    val uiState = _uiState.asStateFlow()
 
     init {
         getPokemons()
@@ -32,10 +36,28 @@ class PokemonViewModel @Inject constructor(
 
     private fun getPokemons() {
         viewModelScope.launch(handler) {
-            val result = pokemonRepository.getPokemonsStream(20, 0)
-            when(result) {
+            pokemonRepository.getPokemonsStream(20, 0)
+                .collect {
+                    when(it) {
+                        is com.reza.rahmani.pokes.data.model.local.Result.Value -> {
+                            _uiState.value = it.value?.results
+                        }
+                        is com.reza.rahmani.pokes.data.model.local.Result.Error -> {
 
-            }
+                        }
+                    }
+                }
         }
     }
+}
+
+@Stable
+interface PokemonsUiState {
+    val errorMessage: String?
+    val pokemons: List<Pokemons>?
+}
+
+private class MutablePokemonsUiState : PokemonsUiState {
+    override var errorMessage: String? by mutableStateOf(null)
+    override var pokemons: List<Pokemons>? by mutableStateOf(emptyList())
 }
