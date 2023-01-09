@@ -29,13 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
 import com.reza.rahmani.pokes.R
-import com.reza.rahmani.pokes.data.model.local.PokemonItem
 import com.reza.rahmani.pokes.ui.Screen
 import com.reza.rahmani.pokes.ui.theme.PokesTheme
 import com.reza.rahmani.pokes.ui.theme.RobotoCondensed
@@ -62,6 +60,7 @@ fun PokemonListScreen(
             ) {
 
             }
+            Pokemons(navController = navController)
         }
     }
 }
@@ -148,7 +147,7 @@ fun PokemonItem(
                     .data(item.url)
                     .crossfade(true)
                     .build(),
-                contentDescription = item.pokemonName,
+                contentDescription = item.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(120.dp)
@@ -163,7 +162,7 @@ fun PokemonItem(
                 }
             }
             Text(
-                text = item.pokemonName,
+                text = item.name ?: "",
                 fontFamily = RobotoCondensed,
                 fontSize = 26.sp,
                 textAlign = TextAlign.Center,
@@ -184,10 +183,12 @@ fun Pokemons(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(state.value!!) {
-            PokemonItem(
-                item = it, navController = navController
-            )
+        state.value?.let {
+            items(state.value!!) {
+                PokemonItem(
+                    item = it!!, navController = navController
+                )
+            }
         }
     }
 }
@@ -215,25 +216,5 @@ fun SearchBarPreview() {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {}
-    }
-}
-
-@Preview(showBackground = true, name = "PokemonItem")
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "PokemonItem Dark")
-@Composable
-fun PokemonItemPreview() {
-    val navController = rememberNavController()
-    PokesTheme {
-        PokemonItem(
-            item = PokemonItem(
-                pokemonName = "Pokemon",
-                imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png",
-                number = 10
-            ),
-            navController = navController,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-        )
     }
 }

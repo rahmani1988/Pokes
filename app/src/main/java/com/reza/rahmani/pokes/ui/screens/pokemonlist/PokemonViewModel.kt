@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.reza.rahmani.pokes.data.model.local.ResultWraper
 import com.reza.rahmani.pokes.data.model.remote.response.pokemons.Pokemons
 import com.reza.rahmani.pokes.data.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.reza.rahmani.pokes.data.model.remote.response.pokemons.Result
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onEach
 
 @HiltViewModel
 class PokemonViewModel @Inject constructor(
@@ -39,10 +38,10 @@ class PokemonViewModel @Inject constructor(
             pokemonRepository.getPokemonsStream(20, 0)
                 .collect {
                     when(it) {
-                        is com.reza.rahmani.pokes.data.model.local.Result.Value -> {
+                        is ResultWraper.Value -> {
                             _uiState.value = it.value?.results
                         }
-                        is com.reza.rahmani.pokes.data.model.local.Result.Error -> {
+                        is ResultWraper.Error -> {
 
                         }
                     }
